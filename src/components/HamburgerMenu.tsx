@@ -39,9 +39,6 @@ const HamburgerMenu: React.FC = () => {
             <TouchableOpacity style={styles.menuItem} onPress={() => { toggleMenu(); navigation.navigate('ConsumerProducts'); }}>
               <Text>Produtos</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem} onPress={() => { toggleMenu(); navigation.navigate('ConsumerCategories'); }}>
-              <Text>Categorias</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.menuItem} onPress={() => { toggleMenu(); navigation.navigate('Cart'); }}>
               <Text>Carrinho</Text>
             </TouchableOpacity>

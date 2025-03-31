@@ -1,4 +1,3 @@
-// src/screens/Admin/AdminCategoriesScreen.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Button, Alert, StyleSheet } from 'react-native';
 import db from '../../database/Database';
@@ -12,9 +11,7 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
 
   const fetchCategories = () => {
     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM categories;', [], (_, { rows: { _array } }) => {
-        setCategories(_array);
-      });
+      tx.executeSql('SELECT * FROM categories;', [], (_, { rows: { _array } }) => setCategories(_array));
     });
   };
 
@@ -25,9 +22,7 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
 
   const deleteCategory = (id: string) => {
     db.transaction(tx => {
-      tx.executeSql('DELETE FROM categories WHERE id = ?;', [id], () => {
-        fetchCategories();
-      });
+      tx.executeSql('DELETE FROM categories WHERE id = ?;', [id], () => fetchCategories());
     });
   };
 
@@ -39,8 +34,17 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const renderItem = ({ item }: { item: any }) => (
-    <View style={styles.item}>
-      <Text>{item.name}</Text>
+    <View style={styles.categoryItem}>
+      <View style={styles.row}>
+        <View style={styles.col}>
+          <Text style={styles.colTitle}>Categoria</Text>
+          <Text>{item.name}</Text>
+        </View>
+        <View style={styles.col}>
+          <Text style={styles.colTitle}>ID</Text>
+          <Text>{item.id}</Text>
+        </View>
+      </View>
       <View style={styles.buttons}>
         <Button title="Editar" onPress={() => navigation.navigate('AdminCategoryForm', { category: item })} />
         <Button title="Excluir" onPress={() => confirmDelete(item.id)} />
@@ -63,8 +67,11 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  item: { padding: 10, borderBottomWidth: 1, borderColor: '#ccc', marginVertical: 5 },
-  buttons: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 },
+  categoryItem: { backgroundColor: '#f9f9f9', borderRadius: 5, padding: 10, marginVertical: 5 },
+  row: { flexDirection: 'row', justifyContent: 'space-around' },
+  col: { flex: 1, alignItems: 'center' },
+  colTitle: { fontWeight: 'bold', marginBottom: 3 },
+  buttons: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
   emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 }
 });
 

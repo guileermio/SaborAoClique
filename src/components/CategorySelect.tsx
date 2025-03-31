@@ -1,5 +1,6 @@
+// src/components/CategorySelect.tsx
 import React from 'react';
-import { Modal, FlatList, TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { Modal, FlatList, TouchableOpacity, Text, StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 
 type Category = {
   id: string;
@@ -16,26 +17,30 @@ type Props = {
 const CategorySelect: React.FC<Props> = ({ visible, categories, onSelect, onClose }) => {
   return (
     <Modal visible={visible} animationType="slide" transparent={true}>
-      <View style={styles.overlay}>
-        <View style={styles.modal}>
-          <FlatList
-            data={categories}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={styles.item} onPress={() => { onSelect(item.id); onClose(); }}>
-                <Text style={styles.itemText}>{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modal}>
+              <FlatList
+                data={categories}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.item} onPress={() => { onSelect(item.id); }}>
+                    <Text style={styles.itemText}>{item.name}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   overlay: {
-    flex:1,
+    flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'center',
     alignItems: 'center'

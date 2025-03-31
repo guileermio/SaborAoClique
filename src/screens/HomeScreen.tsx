@@ -13,7 +13,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { textTransform: 'uppercase' }]}>Consumidor</Text>
         <Button title="Produtos" onPress={() => navigation.navigate('ConsumerProducts')} />
-        <Button title="Categorias" onPress={() => navigation.navigate('ConsumerCategories')} />
         <Button title="Carrinho" onPress={() => navigation.navigate('Cart')} />
         <Button title="Histórico de Pedidos" onPress={() => navigation.navigate('Orders')} />
         <Button title="Mais Vendidos" onPress={() => navigation.navigate('Additional')} />

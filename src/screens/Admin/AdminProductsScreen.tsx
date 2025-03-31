@@ -8,21 +8,32 @@ type Props = NativeStackScreenProps<RootStackParamList, 'AdminProducts'>;
 
 const AdminProductsScreen: React.FC<Props> = ({ navigation }) => {
   const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const fetchProducts = () => {
     db.transaction(tx => {
-      tx.executeSql(
-        'SELECT * FROM products;',
-        [],
-        (_, { rows: { _array } }) => setProducts(_array)
-      );
+      tx.executeSql('SELECT * FROM products;', [], (_, { rows: { _array } }) => setProducts(_array));
+    });
+  };
+
+  const fetchCategories = () => {
+    db.transaction(tx => {
+      tx.executeSql('SELECT * FROM categories;', [], (_, { rows: { _array } }) => setCategories(_array));
     });
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', fetchProducts);
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchProducts();
+      fetchCategories();
+    });
     return unsubscribe;
   }, [navigation]);
+
+  const getCategoryName = (categoryId: string) => {
+    const cat = categories.find((c: any) => c.id === categoryId);
+    return cat ? cat.name : 'N/A';
+  };
 
   const deleteProduct = (id: string) => {
     db.transaction(tx => {
@@ -41,12 +52,16 @@ const AdminProductsScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.productItem}>
       <View style={styles.row}>
         <View style={styles.col}>
+          <Text style={styles.colTitle}>ID</Text>
+          <Text>{item.id}</Text>
+        </View>
+        <View style={styles.col}>
           <Text style={styles.colTitle}>Produto</Text>
           <Text>{item.name}</Text>
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Categoria</Text>
-          <Text>{item.category_id}</Text>
+          <Text>{getCategoryName(item.category_id)}</Text>
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Preço</Text>

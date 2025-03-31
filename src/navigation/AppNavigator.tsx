@@ -57,11 +57,7 @@ const AppNavigator = () => {
           options={{ title: 'Produtos' }}
         />
         <Stack.Screen name="ConsumerProductDetail" component={ConsumerProductDetailScreen} options={{ title: 'Detalhes do Produto' }} />
-        <Stack.Screen
-          name="ConsumerCategories"
-          component={ConsumerProductsWrapper}
-          options={{ title: 'Categorias' }}
-        />
+
         {/* Compartilhadas */}
         <Stack.Screen name="Cart" component={CartScreen} options={{ title: 'Carrinho de Compras' }} />
         <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: 'Finalizar Pedido' }} />

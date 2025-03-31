@@ -8,7 +8,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ConsumerProductDetail'>
   route: {
     params: {
       product: any;
-      source?: string; // 'admin' se acessado por admin
+      source?: string; // 'admin' se acessado via admin
     }
   }
 };

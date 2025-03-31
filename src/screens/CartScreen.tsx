@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useCart } from '../context/CartContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
@@ -73,7 +73,20 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Limpar Carrinho" onPress={() => setCart({})} />
-        <Button title="Finalizar Pedido" onPress={() => navigation.navigate('Checkout', { cart })} />
+        <Button
+          title="Finalizar Pedido"
+          onPress={() => {
+            if (Object.keys(cart).length === 0) {
+              Alert.alert(
+                "Aviso",
+                "Carrinho vazio. Adicione itens ao seu carrinho antes de finalizar o pedido.",
+                [{ text: "OK" }]
+              );
+            } else {
+              navigation.navigate('Checkout', { cart });
+            }
+          }}
+        />
       </View>
     </View>
   );

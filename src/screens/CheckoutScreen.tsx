@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+// src/screens/CheckoutScreen.tsx
+import React from 'react';
 import { View, Text, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import db from '../database/Database';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import { formatDate } from '../utils/formatDate';
 import { useCart } from '../context/CartContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Checkout'>;
 
-const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { cart } = route.params as { cart: any };
-  const { setCart } = useCart();
-  const total = Object.values(cart).reduce((sum: number, item: any) => sum + item.product.price * item.quantity, 0);
-  const orderCode = 'PED' + Date.now();
-  const orderDate = new Date().toISOString();
+type CartItem = { 
+  product: { price: number; [key: string]: any };
+  quantity: number;
+};
 
-  const confirmOrder = () => {
+type Cart = Record<string, CartItem>;
+
+const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { cart } = route.params as { cart: Cart };
+  const { setCart } = useCart();
+  // Calcule o total
+  const total = Object.values(cart).reduce((sum: number, item: CartItem) => sum + item.product.price * item.quantity, 0);
+  
+  // Salve a data como string ISO
+  const orderDate = new Date().toISOString();
+  const orderCode = 'PED' + Date.now();
+
+  const completeOrder = () => {
     if (Object.keys(cart).length === 0) {
       Alert.alert('Aviso', 'Não há produtos no carrinho.');
       return;
@@ -25,7 +37,7 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
         [orderCode, orderDate, total],
         (_, result) => {
           const orderId = result.insertId;
-          Object.values(cart).forEach((item: any) => {
+          Object.values(cart).forEach(item => {
             tx.executeSql(
               `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?);`,
               [orderId, item.product.id, item.quantity, item.product.price]
@@ -34,12 +46,13 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
         }
       );
     }, (error) => {
-      Alert.alert('Erro', 'Não foi possível finalizar o pedido: ' + error.message);
+      console.log("Erro ao finalizar pedido:", error);
     }, () => {
       Alert.alert('Sucesso', 'Pedido realizado com sucesso!');
+      // Limpa o carrinho somente após confirmação
       setCart({});
-      // Reseta a navegação para Home (assim o back vai para Home)
-      navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
+      // Redireciona para a tela de Histórico de Pedidos
+      navigation.navigate('Orders');
     });
   };
 
@@ -48,13 +61,25 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Resumo do Pedido</Text>
         <Text>Código: {orderCode}</Text>
-        <Text>Data: {orderDate}</Text>
-        <Text style={styles.totalText}>
-          Total: R$ {total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </Text>
+        <Text>Data: {formatDate(orderDate)}</Text>
+        
+        {/* Nova seção de produtos */}
+        <Text style={styles.subtitle}>Produtos:</Text>
+        {Object.values(cart).map((item, index) => (
+          <View key={index} style={styles.itemContainer}>
+            <Text style={styles.productName}>{item.product.name}</Text>
+            <View style={styles.productDetails}>
+              <Text>Preço Unitário: R$ {item.product.price.toFixed(2)}</Text>
+              <Text>Quantidade: {item.quantity}</Text>
+            </View>
+          </View>
+        ))}
+
+        <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
       </ScrollView>
+      
       <View style={styles.footer}>
-        <Button title="Confirmar Pedido" onPress={confirmOrder} />
+        <Button title="Confirmar Pedido" onPress={completeOrder} />
       </View>
     </View>
   );
@@ -63,9 +88,43 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContainer: { padding: 20 },
-  title: { fontSize: 22, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
-  totalText: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginVertical: 20 },
-  footer: { padding: 20, borderTopWidth: 1, borderColor: '#ccc' },
+  title: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    marginBottom: 10 
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 15,
+    marginBottom: 10
+  },
+  itemContainer: {
+    marginBottom: 10,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: '#eee'
+  },
+  productName: {
+    fontWeight: 'bold',
+    marginBottom: 5
+  },
+  productDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  total: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 15,
+    borderTopWidth: 1,
+    borderColor: '#ccc',
+    paddingTop: 10
+  },
+  footer: { 
+    paddingVertical: 20, 
+    borderTopWidth: 1, 
+    borderColor: '#ccc' 
+  }
 });
-
 export default CheckoutScreen;

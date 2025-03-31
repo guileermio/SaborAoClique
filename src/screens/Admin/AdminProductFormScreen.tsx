@@ -1,3 +1,4 @@
+// src/screens/Admin/AdminProductFormScreen.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import db from '../../database/Database';
@@ -129,7 +130,7 @@ const AdminProductFormScreen: React.FC<Props> = ({ navigation, route }) => {
       <CategorySelect 
          visible={selectVisible} 
          categories={categories} 
-         onSelect={(id) => setCategoryId(id)} 
+         onSelect={(id) => { setCategoryId(id); setSelectVisible(false); }} 
          onClose={() => setSelectVisible(false)} 
       />
       <View style={{ marginTop: 20 }}>
