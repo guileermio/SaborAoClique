@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   productName: { flex: 2, color: TEXT_COLOR },
   quantity: { flex: 0.5, textAlign: 'right', color: TEXT_COLOR },
   price: { flex: 1, textAlign: 'right', color: TEXT_COLOR },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: TEXT_COLOR },
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' }
 });
 
 export default OrdersScreen;

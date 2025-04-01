@@ -11,17 +11,14 @@ const Header: React.FC = () => {
   });
 
   const navigation = useNavigation();
-  const routes = useNavigationState(state => state.routes);
+  const routes = useNavigationState(state => state?.routes ?? []);
   const routesLength = routes.length;
   const canGoBack = routesLength > 1;
-  // Obtém a rota anterior, se existir
-  const previousRouteName = routesLength > 1 ? routes[routesLength - 2].name : null;
+  const previousRouteName = routesLength > 1 ? routes[routesLength - 2]?.name : null;
 
-  // Função para tratar o evento de voltar
   const handleBackPress = () => {
     if (!canGoBack) return;
     if (previousRouteName === 'Checkout') {
-      // Se a última tela for Checkout, redireciona para a Home
       navigation.navigate('Home');
     } else {
       navigation.goBack();
@@ -103,10 +100,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginLeft: 10,
     left: -20,
-  },
-  text: {
-    zIndex: 1,
-    position: 'relative',
   },
 });
 

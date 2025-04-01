@@ -238,12 +238,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     gap: 10,
   },
-  emptyMessage: { 
-    fontSize: 16, 
-    textAlign: 'center', 
-    marginTop: 20, 
-    color: '#666666' 
-  },
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' },
   feedbackContainer: {
     position: 'absolute',
     bottom: 20,

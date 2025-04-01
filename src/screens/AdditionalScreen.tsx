@@ -133,12 +133,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#666666',
   },
-  emptyMessage: { 
-    fontSize: 16, 
-    textAlign: 'center', 
-    marginTop: 20, 
-    color: '#666666' 
-  }
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' },
 });
 
 export default AdditionalScreen;

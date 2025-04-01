@@ -161,12 +161,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     lineHeight: 28,
   },
-  emptyMessage: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20,
-    color: '#666666'
-  },
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' },
   totalContainer: {
     padding: 15,
     backgroundColor: '#f5f5f5',

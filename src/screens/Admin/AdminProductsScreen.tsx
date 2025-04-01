@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   col: { flex: 1, alignItems: 'center' },
   colTitle: { fontWeight: 'bold', marginBottom: 3, color: '#333' },
   buttons: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#DC143C' }
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' }
 });
 
 export default AdminProductsScreen;
