@@ -85,18 +85,25 @@ const AdminCategoryFormScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Text>ID da Categoria:</Text>
+      <Text style={styles.label}>ID da Categoria:</Text>
       <TextInput style={[styles.input, { backgroundColor: '#eee' }]} value={id} editable={false} />
-      <Text>Nome:</Text>
+      <Text style={styles.label}>Nome:</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
-      <Button title="Salvar Categoria" onPress={saveCategory} />
+      <Button title="Salvar Categoria" onPress={saveCategory} color="#DC143C" />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 10 }
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  label: { fontWeight: 'bold', color: '#DC143C', marginBottom: 5 },
+  input: { 
+    borderWidth: 1, 
+    borderColor: '#ccc', 
+    padding: 8, 
+    marginBottom: 10, 
+    borderRadius: 5 
+  }
 });
 
 export default AdminCategoryFormScreen;

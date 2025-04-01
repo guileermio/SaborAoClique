@@ -46,15 +46,15 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Button title="Editar" onPress={() => navigation.navigate('AdminCategoryForm', { category: item })} />
-        <Button title="Excluir" onPress={() => confirmDelete(item.id)} />
+        <Button title="Editar" onPress={() => navigation.navigate('AdminCategoryForm', { category: item })} color="#DC143C" />
+        <Button title="Excluir" onPress={() => confirmDelete(item.id)} color="#DC143C" />
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Button title="Adicionar Categoria" onPress={() => navigation.navigate('AdminCategoryForm')} />
+      <Button title="Adicionar Categoria" onPress={() => navigation.navigate('AdminCategoryForm')} color="#DC143C" />
       <FlatList
         data={categories}
         keyExtractor={(item) => item.id.toString()}
@@ -66,13 +66,13 @@ const AdminCategoriesScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  categoryItem: { backgroundColor: '#f9f9f9', borderRadius: 5, padding: 10, marginVertical: 5 },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  categoryItem: { backgroundColor: '#f9f9f9', borderRadius: 5, padding: 10, marginVertical: 5, borderColor: '#DC143C', borderWidth: 1 },
   row: { flexDirection: 'row', justifyContent: 'space-around' },
   col: { flex: 1, alignItems: 'center' },
-  colTitle: { fontWeight: 'bold', marginBottom: 3 },
+  colTitle: { fontWeight: 'bold', marginBottom: 3, color: '#DC143C' },
   buttons: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 }
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' }
 });
 
 export default AdminCategoriesScreen;

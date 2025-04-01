@@ -43,20 +43,40 @@ const AdditionalScreen: React.FC = () => {
     return cat ? cat.name : 'N/A';
   };
 
-  const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'consumer' })}>
+  const getBackgroundColor = (index) => {
+    switch (index) {
+      case 0:
+        return '#FFD700'; // Dourado
+      case 1:
+        return '#C0C0C0'; // Prata
+      case 2:
+        return '#CD7F32'; // Bronze
+      case 3:
+        return '#87CEEB'; // Azul
+      case 4:
+        return '#90EE90'; // Verde
+      default:
+        return '#f5f5f5';
+    }
+  };
+
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity 
+      style={[styles.item, { backgroundColor: getBackgroundColor(index) }]} 
+      onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'consumer' })}
+    >
       <View style={styles.row}>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Produto</Text>
-          <Text>{item.name}</Text>
+          <Text style={styles.text}>{item.name}</Text>
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Categoria</Text>
-          <Text>{getCategoryName(item.category_id)}</Text>
+          <Text style={styles.text}>{getCategoryName(item.category_id)}</Text>
         </View>
         <View style={styles.col}>
           <Text style={styles.colTitle}>Vendido</Text>
-          <Text>{item.totalSold}</Text>
+          <Text style={styles.text}>{item.totalSold}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -69,20 +89,56 @@ const AdditionalScreen: React.FC = () => {
         data={topProducts}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-        ListEmptyComponent={<Text style={styles.emptyMessage}>Não há nenhum produto vendido.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.emptyMessage}>Não há nenhum produto vendido.</Text>
+        }
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
-  item: { backgroundColor: '#ffd54f', borderRadius: 8, padding: 15, marginVertical: 8 },
-  row: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
-  col: { flex: 1, alignItems: 'center' },
-  colTitle: { fontWeight: 'bold', marginBottom: 5 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 }
+  container: { 
+    flex: 1, 
+    padding: 20, 
+    backgroundColor: '#ffffff' 
+  },
+  title: { 
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    marginBottom: 15,
+    textAlign: 'center',
+    color: '#DC143C',
+  },
+  item: { 
+    borderRadius: 8, 
+    padding: 15, 
+    marginVertical: 5,
+    elevation: 2,
+  },
+  row: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    alignItems: 'center' 
+  },
+  col: { 
+    flex: 1, 
+    alignItems: 'center' 
+  },
+  colTitle: { 
+    fontWeight: 'bold', 
+    marginBottom: 3, 
+    color: '#333333' 
+  },
+  text: {
+    color: '#666666',
+  },
+  emptyMessage: { 
+    fontSize: 16, 
+    textAlign: 'center', 
+    marginTop: 20, 
+    color: '#666666' 
+  }
 });
 
 export default AdditionalScreen;

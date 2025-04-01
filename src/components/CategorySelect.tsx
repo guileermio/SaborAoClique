@@ -1,4 +1,3 @@
-// src/components/CategorySelect.tsx
 import React from 'react';
 import { Modal, FlatList, TouchableOpacity, Text, StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 

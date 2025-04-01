@@ -37,7 +37,7 @@ const ConsumerProductDetailScreen: React.FC<Props> = ({ route, navigation }) => 
         R$ {Number(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </Text>
       {source !== 'admin' && (
-        <Button title="Adicionar ao Carrinho" onPress={handleAddToCart} />
+        <Button color="#DC143C" title="Adicionar ao Carrinho" onPress={handleAddToCart} />
       )}
       {feedbackVisible && (
         <Animated.View style={[styles.feedbackContainer, { opacity: fadeAnim }]}>
@@ -52,25 +52,39 @@ const ConsumerProductDetailScreen: React.FC<Props> = ({ route, navigation }) => 
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, alignItems: 'center' },
+  container: { flex: 1, padding: 20, alignItems: 'center', backgroundColor: '#fff' },
   image: { width: 200, height: 200, marginBottom: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  description: { fontSize: 16, marginBottom: 10 },
-  price: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10, color: '#333' },
+  description: { fontSize: 16, marginBottom: 10, color: '#555' },
+  price: { fontSize: 20, fontWeight: 'bold', marginBottom: 20, color: '#DC143C' },
   feedbackContainer: {
     position: 'absolute',
     bottom: 20,
     left: '10%',
     right: '10%',
-    backgroundColor: '#000',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#ffffff',
+    padding: 15,
+    borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#DC143C',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  feedbackText: { color: '#fff', marginRight: 10 },
-  feedbackLink: { color: '#0af', textDecorationLine: 'underline' }
+  feedbackText: { 
+    color: '#333333', 
+    marginRight: 10,
+    fontSize: 14,
+  },
+  feedbackLink: { 
+    color: '#DC143C', 
+    fontWeight: 'bold',
+    textDecorationLine: 'underline' 
+  },
 });
 
 export default ConsumerProductDetailScreen;

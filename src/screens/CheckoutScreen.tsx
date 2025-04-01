@@ -1,4 +1,3 @@
-// src/screens/CheckoutScreen.tsx
 import React from 'react';
 import { View, Text, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import db from '../database/Database';
@@ -19,10 +18,9 @@ type Cart = Record<string, CartItem>;
 const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
   const { cart } = route.params as { cart: Cart };
   const { setCart } = useCart();
-  // Calcule o total
+  
   const total = Object.values(cart).reduce((sum: number, item: CartItem) => sum + item.product.price * item.quantity, 0);
   
-  // Salve a data como string ISO
   const orderDate = new Date().toISOString();
   const orderCode = 'PED' + Date.now();
 
@@ -49,9 +47,7 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
       console.log("Erro ao finalizar pedido:", error);
     }, () => {
       Alert.alert('Sucesso', 'Pedido realizado com sucesso!');
-      // Limpa o carrinho somente após confirmação
       setCart({});
-      // Redireciona para a tela de Histórico de Pedidos
       navigation.navigate('Orders');
     });
   };
@@ -60,17 +56,16 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}>Resumo do Pedido</Text>
-        <Text>Código: {orderCode}</Text>
-        <Text>Data: {formatDate(orderDate)}</Text>
+        <Text style={styles.text}>Código: {orderCode}</Text>
+        <Text style={styles.text}>Data: {formatDate(orderDate)}</Text>
         
-        {/* Nova seção de produtos */}
         <Text style={styles.subtitle}>Produtos:</Text>
         {Object.values(cart).map((item, index) => (
           <View key={index} style={styles.itemContainer}>
             <Text style={styles.productName}>{item.product.name}</Text>
             <View style={styles.productDetails}>
-              <Text>Preço Unitário: R$ {item.product.price.toFixed(2)}</Text>
-              <Text>Quantidade: {item.quantity}</Text>
+              <Text style={styles.text}>Preço Unitário: R$ {item.product.price.toFixed(2)}</Text>
+              <Text style={styles.text}>Quantidade: {item.quantity}</Text>
             </View>
           </View>
         ))}
@@ -79,25 +74,30 @@ const CheckoutScreen: React.FC<Props> = ({ route, navigation }) => {
       </ScrollView>
       
       <View style={styles.footer}>
-        <Button title="Confirmar Pedido" onPress={completeOrder} />
+        <Button title="Confirmar Pedido" onPress={completeOrder} color="#DC143C" />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: '#fff' },
   scrollContainer: { padding: 20 },
   title: { 
     fontSize: 18, 
     fontWeight: 'bold', 
-    marginBottom: 10 
+    marginBottom: 10,
+    color: '#DC143C' 
   },
   subtitle: {
     fontSize: 16,
     fontWeight: '600',
     marginTop: 15,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#DC143C'
+  },
+  text: {
+    color: '#333'
   },
   itemContainer: {
     marginBottom: 10,
@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontWeight: 'bold',
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#000'
   },
   productDetails: {
     flexDirection: 'row',
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderTopWidth: 1,
     borderColor: '#ccc',
-    paddingTop: 10
+    paddingTop: 10,
+    color: '#DC143C'
   },
   footer: { 
     paddingVertical: 20, 
@@ -127,4 +129,5 @@ const styles = StyleSheet.create({
     borderColor: '#ccc' 
   }
 });
+
 export default CheckoutScreen;

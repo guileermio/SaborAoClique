@@ -69,16 +69,16 @@ const AdminProductsScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Button title="Detalhes" onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'admin' })} />
-        <Button title="Editar" onPress={() => navigation.navigate('AdminProductForm', { product: item })} />
-        <Button title="Excluir" onPress={() => confirmDelete(item.id)} />
+        <Button color="#DC143C" title="Detalhes" onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'admin' })} />
+        <Button color="#DC143C" title="Editar" onPress={() => navigation.navigate('AdminProductForm', { product: item })} />
+        <Button color="#DC143C" title="Excluir" onPress={() => confirmDelete(item.id)} />
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Button title="Adicionar Produto" onPress={() => navigation.navigate('AdminProductForm')} />
+      <Button color="#DC143C" title="Adicionar Produto" onPress={() => navigation.navigate('AdminProductForm')} />
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
@@ -90,13 +90,13 @@ const AdminProductsScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
   productItem: { backgroundColor: '#f9f9f9', borderRadius: 5, padding: 10, marginVertical: 5 },
   row: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
   col: { flex: 1, alignItems: 'center' },
-  colTitle: { fontWeight: 'bold', marginBottom: 3 },
+  colTitle: { fontWeight: 'bold', marginBottom: 3, color: '#333' },
   buttons: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 }
+  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#DC143C' }
 });
 
 export default AdminProductsScreen;

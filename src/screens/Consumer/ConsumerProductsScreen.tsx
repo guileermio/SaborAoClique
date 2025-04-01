@@ -102,8 +102,16 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Button title="Detalhes" onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'consumer' })} />
-        <Button title="Adicionar ao Carrinho" onPress={() => handleAddToCart(item)} />
+        <Button 
+          title="Detalhes" 
+          onPress={() => navigation.navigate('ConsumerProductDetail', { product: item, source: 'consumer' })} 
+          color="#DC143C"
+        />
+        <Button 
+          title="Adicionar ao Carrinho" 
+          onPress={() => handleAddToCart(item)} 
+          color="#DC143C"
+        />
       </View>
     </View>
   );
@@ -113,7 +121,7 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
       <Button 
         title="Opções de Filtro" 
         onPress={openFilterModal}
-        color="#007AFF"
+        color="#DC143C"
       />
 
       {selectedCategories.length > 0 && (
@@ -176,7 +184,11 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
                 </TouchableOpacity>
               )}
             />
-            <Button title="Aplicar Filtros" onPress={confirmFilter} />
+            <Button 
+              title="Aplicar Filtros" 
+              onPress={confirmFilter} 
+              color="#DC143C"
+            />
           </View>
         </TouchableOpacity>
       </Modal>
@@ -194,44 +206,90 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  productItem: { backgroundColor: '#f9f9f9', borderRadius: 5, padding: 10, marginVertical: 5 },
-  row: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
-  col: { flex: 1, alignItems: 'center' },
-  colTitle: { fontWeight: 'bold', marginBottom: 3 },
-  buttons: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 },
+  container: { 
+    flex: 1, 
+    padding: 20, 
+    backgroundColor: '#ffffff' 
+  },
+  productItem: { 
+    backgroundColor: '#f5f5f5', 
+    borderRadius: 8, 
+    padding: 15, 
+    marginVertical: 5,
+    elevation: 2,
+  },
+  row: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    alignItems: 'center' 
+  },
+  col: { 
+    flex: 1, 
+    alignItems: 'center' 
+  },
+  colTitle: { 
+    fontWeight: 'bold', 
+    marginBottom: 3, 
+    color: '#333333' 
+  },
+  buttons: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    marginTop: 10,
+    gap: 10,
+  },
+  emptyMessage: { 
+    fontSize: 16, 
+    textAlign: 'center', 
+    marginTop: 20, 
+    color: '#666666' 
+  },
   feedbackContainer: {
     position: 'absolute',
     bottom: 20,
     left: '10%',
     right: '10%',
-    backgroundColor: '#000',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#ffffff',
+    padding: 15,
+    borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#DC143C',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  feedbackText: { color: '#fff', marginRight: 10 },
-  feedbackLink: { color: '#0af', textDecorationLine: 'underline' },
+  feedbackText: { 
+    color: '#333333', 
+    marginRight: 10,
+    fontSize: 14,
+  },
+  feedbackLink: { 
+    color: '#DC143C', 
+    fontWeight: 'bold',
+    textDecorationLine: 'underline' 
+  },
   chipsContainer: { 
     flexDirection: 'row', 
     flexWrap: 'wrap', 
     marginVertical: 10,
-    gap: 5,
+    gap: 8,
   },
   chip: { 
-    backgroundColor: '#e3f2fd', 
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    backgroundColor: '#FFE5E5', 
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#90caf9',
+    borderColor: '#DC143C80',
   },
   chipText: {
-    color: '#1976d2',
+    color: '#DC143C',
     fontSize: 14,
+    fontWeight: '500',
   },
   modalOverlay: { 
     flex: 1, 
@@ -242,8 +300,8 @@ const styles = StyleSheet.create({
   modalContent: { 
     width: '90%', 
     backgroundColor: 'white', 
-    borderRadius: 10, 
-    padding: 15, 
+    borderRadius: 12, 
+    padding: 20, 
     maxHeight: '80%',
   },
   modalTitle: { 
@@ -251,19 +309,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     marginBottom: 15, 
     textAlign: 'center',
-    color: '#333',
+    color: '#DC143C',
   },
   modalItem: { 
     padding: 15,
     borderBottomWidth: 1, 
-    borderBottomColor: '#eee', 
+    borderBottomColor: '#eeeeee', 
   },
   selectedItem: {
-    backgroundColor: '#f0f4ff',
+    backgroundColor: '#FFF0F0',
   },
   selectedText: { 
     fontWeight: 'bold', 
-    color: '#1a73e8',
+    color: '#DC143C',
   },
 });
 

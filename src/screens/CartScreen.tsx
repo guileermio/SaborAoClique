@@ -19,19 +19,30 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
   }, [cart]);
 
   const renderCartItem = ({ item }: { item: any }) => (
-    <View style={styles.cartRow}>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Produto</Text>
-        <Text>{item.product.name}</Text>
+    <View style={styles.item}>
+      <View style={styles.row}>
+        <View style={styles.cell}>
+          <Text style={styles.cellTitle}>Produto</Text>
+          <Text style={styles.text}>{item.product.name}</Text>
+        </View>
+        <View style={styles.cell}>
+          <Text style={styles.cellTitle}>Qtd.</Text>
+          <Text style={styles.text}>{item.quantity}</Text>
+        </View>
+        <View style={styles.cell}>
+          <Text style={styles.cellTitle}>Preço Unitário</Text>
+          <Text style={styles.text}>
+            R$ {Number(item.product.price).toLocaleString('pt-BR', { 
+              minimumFractionDigits: 2, 
+              maximumFractionDigits: 2 
+            })}
+          </Text>
+        </View>
       </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Qtd.</Text>
-        <Text>{item.quantity}</Text>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Ajustar</Text>
-        <View style={styles.adjustContainer}>
-          <TouchableOpacity style={styles.adjustButton} onPress={() => {
+      <View style={styles.adjustContainer}>
+        <TouchableOpacity 
+          style={styles.adjustButton} 
+          onPress={() => {
             const newCart = { ...cart };
             if (newCart[item.product.id].quantity > 1) {
               newCart[item.product.id].quantity -= 1;
@@ -40,20 +51,17 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
             }
             setCart(newCart);
           }}>
-            <Text style={styles.adjustText}>–</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.adjustButton} onPress={() => {
+          <Text style={styles.adjustText}>–</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.adjustButton} 
+          onPress={() => {
             const newCart = { ...cart };
             newCart[item.product.id].quantity += 1;
             setCart(newCart);
           }}>
-            <Text style={styles.adjustText}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.cell}>
-        <Text style={styles.cellTitle}>Preço Unitário</Text>
-        <Text>R$ {Number(item.product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Text>
+          <Text style={styles.adjustText}>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -64,15 +72,24 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
         data={Object.values(cart)}
         keyExtractor={(item) => item.product.id.toString()}
         renderItem={renderCartItem}
-        ListEmptyComponent={<Text style={styles.emptyMessage}>Carrinho vazio.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.emptyMessage}>Carrinho vazio.</Text>
+        }
       />
       <View style={styles.totalContainer}>
         <Text style={styles.totalText}>
-          Total: R$ {total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          Total: R$ {total.toLocaleString('pt-BR', { 
+            minimumFractionDigits: 2, 
+            maximumFractionDigits: 2 
+          })}
         </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Limpar Carrinho" onPress={() => setCart({})} />
+        <Button 
+          title="Limpar Carrinho" 
+          onPress={() => setCart({})} 
+          color="#DC143C"
+        />
         <Button
           title="Finalizar Pedido"
           onPress={() => {
@@ -86,6 +103,7 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
               navigation.navigate('Checkout', { cart });
             }
           }}
+          color="#DC143C"
         />
       </View>
     </View>
@@ -93,25 +111,80 @@ const CartScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  cartRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
-  cell: { flex: 1, alignItems: 'center' },
-  cellTitle: { fontWeight: 'bold', marginBottom: 5 },
-  adjustContainer: { flexDirection: 'row' },
+  container: { 
+    flex: 1, 
+    padding: 20, 
+    backgroundColor: '#ffffff' 
+  },
+  item: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    padding: 15,
+    marginVertical: 5,
+    elevation: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  cell: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  cellTitle: {
+    fontWeight: 'bold',
+    marginBottom: 3,
+    color: '#333333',
+    fontSize: 14,
+  },
+  text: {
+    color: '#666666',
+    fontSize: 14,
+  },
+  adjustContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 8,
+    gap: 10,
+  },
   adjustButton: {
-    width: 30,
-    height: 30,
-    backgroundColor: '#ddd',
+    width: 40,
+    height: 40,
+    backgroundColor: '#DC143C',
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 2,
-    borderRadius: 5
+    borderRadius: 20,
   },
-  adjustText: { fontSize: 18 },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20 },
-  totalContainer: { alignItems: 'center', marginVertical: 10 },
-  totalText: { fontSize: 20, fontWeight: 'bold' },
-  buttonContainer: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 },
+  adjustText: {
+    fontSize: 24,
+    color: '#ffffff',
+    lineHeight: 28,
+  },
+  emptyMessage: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+    color: '#666666'
+  },
+  totalContainer: {
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#DC143C',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    gap: 10,
+    marginTop: 10,
+  },
 });
 
 export default CartScreen;

@@ -1,4 +1,3 @@
-// src/screens/Admin/AdminProductFormScreen.tsx
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import db from '../../database/Database';
@@ -104,24 +103,24 @@ const AdminProductFormScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Text>ID do Produto:</Text>
+      <Text style={styles.label}>ID do Produto:</Text>
       <TextInput style={[styles.input, { backgroundColor: '#eee' }]} value={id} editable={false} />
-      <Text>Nome:</Text>
+      <Text style={styles.label}>Nome:</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
-      <Text>Descrição:</Text>
+      <Text style={styles.label}>Descrição:</Text>
       <TextInput style={styles.input} value={description} onChangeText={setDescription} />
-      <Text>Preço:</Text>
+      <Text style={styles.label}>Preço:</Text>
       <TextInput
         style={styles.input}
         value={price}
         onChangeText={setPrice}
         keyboardType="numeric"
       />
-      <Text>URL da Imagem (opcional):</Text>
+      <Text style={styles.label}>URL da Imagem (opcional):</Text>
       <TextInput style={styles.input} value={image} onChangeText={setImage} />
-      <Text>Categoria:</Text>
+      <Text style={styles.label}>Categoria:</Text>
       <TouchableOpacity style={styles.selectButton} onPress={() => setSelectVisible(true)}>
-        <Text>
+        <Text style={styles.selectButtonText}>
           {categoryId 
             ? categories.find((cat: any) => cat.id === categoryId)?.name || "Selecionar Categoria" 
             : "Selecionar Categoria"}
@@ -134,21 +133,32 @@ const AdminProductFormScreen: React.FC<Props> = ({ navigation, route }) => {
          onClose={() => setSelectVisible(false)} 
       />
       <View style={{ marginTop: 20 }}>
-        <Button title="Salvar Produto" onPress={saveProduct} />
+        <Button title="Salvar Produto" onPress={saveProduct} color="#DC143C" />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 10 },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  label: { fontWeight: 'bold', color: '#DC143C', marginBottom: 5 },
+  input: { 
+    borderWidth: 1, 
+    borderColor: '#ccc', 
+    padding: 8, 
+    marginBottom: 10, 
+    borderRadius: 5 
+  },
   selectButton: { 
     borderWidth: 1, 
     borderColor: '#ccc', 
     padding: 10, 
     marginBottom: 10, 
     borderRadius: 5 
+  },
+  selectButtonText: {
+    color: '#DC143C',
+    textAlign: 'center'
   },
 });
 
