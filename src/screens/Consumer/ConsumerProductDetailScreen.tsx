@@ -89,7 +89,7 @@ const ConsumerProductDetailScreen: React.FC<Props> = ({ route, navigation }) => 
         <Animated.View style={[styles.feedbackContainer, { opacity: fadeAnim }]}>
           <Text style={styles.feedbackText}>Produto adicionado ao carrinho</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-            <Text style={styles.feedbackLink}>VER CARRINHO</Text>
+            <Text style={styles.feedbackLink}>VER</Text>
           </TouchableOpacity>
         </Animated.View>
       )}
