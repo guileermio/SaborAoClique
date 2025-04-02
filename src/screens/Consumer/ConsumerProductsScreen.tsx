@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, Animated, TouchableOpacity, Modal } from 'react-native';
+import { 
+  View, Text, FlatList, Button, StyleSheet, Animated, TouchableOpacity, Modal, Image 
+} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import db from '../../database/Database';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
@@ -87,19 +90,39 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.productItem}>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          <Text style={styles.colTitle}>Produto</Text>
-          <Text>{item.name}</Text>
+      <View style={styles.contentContainer}>
+        <View style={styles.textContainer}>
+          {/* Removido o trecho que exibia o ID */}
+          <View style={styles.row}>
+            <Text style={styles.colTitle}>Produto:</Text>
+            <Text style={styles.colContent}>{item.name}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.colTitle}>Categoria:</Text>
+            <Text style={styles.colContent}>{getCategoryName(item.category_id)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.colTitle}>Preço:</Text>
+            <Text style={styles.colContent}>
+              R$ {Number(item.price).toLocaleString('pt-BR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+              })}
+            </Text>
+          </View>
         </View>
-        <View style={styles.col}>
-          <Text style={styles.colTitle}>Categoria</Text>
-          <Text>{getCategoryName(item.category_id)}</Text>
-        </View>
-        <View style={styles.col}>
-          <Text style={styles.colTitle}>Preço</Text>
-          <Text>R$ {Number(item.price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Text>
-        </View>
+        {item.image && (
+          <TouchableOpacity 
+            style={styles.imageContainer}
+            onPress={() => navigation.navigate('ProductImage', { image: item.image })}
+          >
+            <Image 
+              source={{ uri: `data:image/jpeg;base64,${item.image}` }}
+              style={styles.productImage}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.buttons}>
         <Button 
@@ -118,11 +141,17 @@ const ConsumerProductsScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Button 
-        title="Opções de Filtro" 
-        onPress={openFilterModal}
-        color="#DC143C"
-      />
+      <View style={styles.filterContainer}>
+        <TouchableOpacity style={styles.filterButton} onPress={openFilterModal}>
+          <MaterialCommunityIcons 
+            name="view-grid" 
+            size={24} 
+            color="#FFF" 
+            style={styles.filterIcon}
+          />
+          <Text style={styles.filterText}>Opções de Filtro</Text>
+        </TouchableOpacity>
+      </View>
 
       {selectedCategories.length > 0 && (
         <View style={styles.chipsContainer}>
@@ -209,28 +238,78 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     padding: 20, 
-    backgroundColor: '#ffffff' 
+    backgroundColor: '#fff' 
+  },
+  filterContainer: {
+    marginVertical: 10,
+  },
+  filterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#DC143C',
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  filterIcon: {
+    marginRight: 8,
+  },
+  filterText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  chipsContainer: { 
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    marginVertical: 10,
+    gap: 8,
+  },
+  chip: { 
+    backgroundColor: '#FFE5E5', 
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#DC143C80',
+  },
+  chipText: {
+    color: '#DC143C',
+    fontSize: 14,
+    fontWeight: '500',
   },
   productItem: { 
-    backgroundColor: '#f5f5f5', 
-    borderRadius: 8, 
-    padding: 15, 
+    backgroundColor: '#f9f9f9', 
+    borderRadius: 5, 
+    padding: 10, 
     marginVertical: 5,
     elevation: 2,
   },
-  row: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    alignItems: 'center' 
+  contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  col: { 
-    flex: 1, 
-    alignItems: 'center' 
+  textContainer: {
+    flex: 1,
+    marginRight: 10,
+    top: 10,
+  },
+  row: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginVertical: 3 
   },
   colTitle: { 
+    fontSize: 15,
     fontWeight: 'bold', 
-    marginBottom: 3, 
-    color: '#333333' 
+    marginRight: 5, 
+    color: '#333',
+    textAlign: 'center',
+  },
+  colContent: {
+    fontSize: 15,
+    color: '#000',
+    textAlign: 'center',
   },
   buttons: { 
     flexDirection: 'row', 
@@ -238,7 +317,28 @@ const styles = StyleSheet.create({
     marginTop: 10,
     gap: 10,
   },
-  emptyMessage: { fontSize: 18, textAlign: 'center', marginTop: 20, color: '#666' },
+  imageContainer: {
+    width: 150,
+    height: 112.5,
+    borderWidth: 1.7,
+    borderColor: '#DC143C',
+    borderRadius: 5,
+    overflow: 'hidden', 
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  productImage: {
+    width: '95%',
+    height: '95%',
+    aspectRatio: 4/3,
+    borderRadius: 5,
+  },
+  emptyMessage: { 
+    fontSize: 18, 
+    textAlign: 'center', 
+    marginTop: 20, 
+    color: '#666' 
+  },
   feedbackContainer: {
     position: 'absolute',
     bottom: 20,
@@ -266,25 +366,6 @@ const styles = StyleSheet.create({
     color: '#DC143C', 
     fontWeight: 'bold',
     textDecorationLine: 'underline' 
-  },
-  chipsContainer: { 
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
-    marginVertical: 10,
-    gap: 8,
-  },
-  chip: { 
-    backgroundColor: '#FFE5E5', 
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#DC143C80',
-  },
-  chipText: {
-    color: '#DC143C',
-    fontSize: 14,
-    fontWeight: '500',
   },
   modalOverlay: { 
     flex: 1, 

@@ -64,9 +64,16 @@ const HamburgerMenu: React.FC = () => {
           onPress={toggleMenu}
         >
           <TouchableWithoutFeedback>
-            
             <Animated.View style={[styles.menuContainer, { left: slideAnim }]}>
               <View style={styles.menuContent}>
+                {/* Botão de fechar dentro do menu com novo posicionamento e tamanho */}
+                <TouchableOpacity
+                  style={styles.menuCloseButton}
+                  onPress={toggleMenu}
+                >
+                  <MaterialCommunityIcons name="menu" size={35} color="#FFF" />
+                </TouchableOpacity>
+
                 {/* Opção de Home */}
                 <TouchableOpacity
                   style={styles.homeMenuItem}
@@ -80,6 +87,7 @@ const HamburgerMenu: React.FC = () => {
                   </View>
                   <Text style={styles.menuItemText}>Home</Text>
                 </TouchableOpacity>
+
                 <Text style={styles.sectionTitle}>CONSUMIDOR</Text>
                 <TouchableOpacity
                   style={styles.menuItem}
@@ -219,6 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 60,
     paddingHorizontal: 20,
+    top: 35,
   },
   sectionTitle: {
     fontSize: 18,
@@ -235,11 +244,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  // Estilos para a seção "Home" no menu:
   homeMenuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
+    left: 0,
   },
   iconBorder: {
     borderWidth: 2,
@@ -247,7 +256,7 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#DC143C', // mesma cor do mainColor
+    borderColor: '#DC143C',
     marginRight: 10,
   },
   adminSection: {
@@ -266,10 +275,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     transform: [{ translateY: -2 }],
+    marginHorizontal: 1,
   },
   line: {
     height: 4,
-    width: '40%',
+    width: '37.5%',
   },
   lockContainer: {
     borderWidth: 2,
@@ -281,7 +291,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     zIndex: 1,
   },
-  
+  menuCloseButton: {
+    // Reaproveitando a aparência do botão do header, com modificações:
+    position: 'absolute',
+    left: 10,
+    top: -20,         
+    width: 50,        
+    height: 50,        
+    backgroundColor: '#DC143C',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    zIndex: 2,
+  },
 });
 
 export default HamburgerMenu;

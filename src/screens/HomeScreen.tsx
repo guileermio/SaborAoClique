@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   lockContainer: {
     borderWidth: 2,
-    borderRadius: 30,
+    borderRadius: 50,
     width: 70,
     height: 70,
     justifyContent: 'center',

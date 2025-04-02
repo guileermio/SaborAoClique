@@ -1,0 +1,23 @@
+Bibliotecas que devem ser instaladas antes de rodar o projeto:
+
+npm install expo-cli -g
+
+npm install
+
+npx expo install expo-sqlite
+
+expo install @expo/vector-icons
+
+npm install react-native-svg
+
+npx react-native-asset
+
+npx expo install expo-font
+
+npx expo install expo-asset
+
+npx expo install expo-image-picker expo-file-system
+
+expo install react-native-gesture-handler react-native-reanimated
+
+npm install react-native-reanimated
